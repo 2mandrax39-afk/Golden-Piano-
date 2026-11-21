@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -5,181 +6,35 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Golden Piano</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-background:#111;
-color:#eee;
-font-family:Arial
-}
-
-header{
-text-align:center;
-padding:16px;
-color:#d6b35b
-}
-
-header h1{
-margin:0;
-letter-spacing:4px;
-font-size:27px
-}
-
-header p{
-color:#888;
-font-size:12px
-}
-
-main{
-max-width:900px;
-margin:auto;
-padding:10px
-}
-
-input,select{
-background:#202020;
-color:#eee;
-border:1px solid #555;
-border-radius:8px;
-padding:12px;
-font-size:15px
-}
-
-#songTitle{
-width:100%;
-margin-bottom:10px
-}
-
-.sheet{
-background:#fffdf5;
-border-radius:10px;
-overflow:hidden
-}
-
-#staff{
-display:block;
-width:100%;
-height:330px
-}
-
-.settings{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:8px;
-margin:10px 0
-}
-
-.controls{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin:8px 0
-}
-
-button{
-padding:13px 5px;
-border-radius:8px;
-border:0;
-font-size:14px;
-font-weight:bold;
-background:#292929;
-color:white
-}
-
-.gold{
-background:#c5a04b;
-color:#15120b
-}
-
-.status{
-text-align:center;
-color:#d8b85f;
-min-height:24px;
-padding:5px
-}
-
-.keyboardScroll{
-overflow-x:auto;
-padding:5px 0 12px
-}
-
-.keyboard{
-display:flex;
-position:relative;
-height:205px;
-min-width:840px
-}
-
-.white{
-flex:1;
-background:linear-gradient(#fff,#e4e0d5);
-border:1px solid #777;
-border-radius:0 0 5px 5px;
-position:relative;
-color:#222;
-display:flex;
-justify-content:center;
-align-items:flex-end;
-padding-bottom:9px;
-z-index:1
-}
-
-.white.active{
-background:#d2ae5a
-}
-
-.black{
-position:absolute;
-width:4.2%;
-height:125px;
-top:0;
-background:linear-gradient(#333,#080808);
-border:1px solid #000;
-border-radius:0 0 5px 5px;
-color:#fff;
-z-index:3;
-display:flex;
-align-items:flex-end;
-justify-content:center;
-padding-bottom:6px
-}
-
-.black.active{
-background:#bb953e
-}
-
-.library{
-background:#1c1c1c;
-border:1px solid #333;
-border-radius:10px;
-padding:12px;
-margin-top:15px
-}
-
-.library h3{
-color:#d6b35b;
-margin-top:0
-}
-
-.item{
-border-bottom:1px solid #333;
-padding:10px 0;
-display:flex;
-align-items:center;
-gap:6px
-}
-
-.item span{
-flex:1;
-overflow-wrap:anywhere
-}
-
-.item button{
-padding:8px
-}
-
+body{margin:0;background:#111;color:#eee;font-family:Arial}
+header{text-align:center;padding:16px;color:#d6b35b}
+header h1{margin:0;letter-spacing:4px;font-size:27px}
+header p{color:#888;font-size:12px}
+main{max-width:900px;margin:auto;padding:10px}
+input,select{background:#202020;color:#eee;border:1px solid #555;border-radius:8px;padding:12px;font-size:15px}
+#songTitle{width:100%;margin-bottom:10px}
+.sheet{background:#fffdf5;border-radius:10px;overflow:hidden}
+#staff{display:block;width:100%;height:330px}
+.settings{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+button{padding:13px 5px;border-radius:8px;border:0;font-size:14px;font-weight:bold;background:#292929;color:white}
+.gold{background:#c5a04b;color:#15120b}
+.status{text-align:center;color:#d8b85f;min-height:24px;padding:5px}
+.keyboardScroll{overflow-x:auto;padding:5px 0 12px}
+.keyboard{display:flex;position:relative;height:205px;min-width:840px;touch-action:none}
+.white{flex:1;background:linear-gradient(#fff,#e4e0d5);border:1px solid #777;border-radius:0 0 5px 5px;position:relative;color:#222;display:flex;justify-content:center;align-items:flex-end;padding-bottom:9px;z-index:1;touch-action:none}
+.white.active{background:#d2ae5a}
+.black{position:absolute;width:4.2%;height:125px;top:0;background:linear-gradient(#333,#080808);border:1px solid #000;border-radius:0 0 5px 5px;color:#fff;z-index:3;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;touch-action:none}
+.black.active{background:#bb953e}
+.library{background:#1c1c1c;border:1px solid #333;border-radius:10px;padding:12px;margin-top:15px}
+.library h3{color:#d6b35b;margin-top:0}
+.item{border-bottom:1px solid #333;padding:10px 0;display:flex;align-items:center;gap:6px}
+.item span{flex:1;overflow-wrap:anywhere}
+.item button{padding:8px}
 @media(max-width:500px){
 #staff{height:290px}
 .settings select{font-size:13px;padding:9px 4px}
@@ -188,7 +43,6 @@ padding:8px
 </head>
 
 <body>
-
 <header>
 <h1>GOLDEN PIANO</h1>
 <p>YOUR PERSONAL MUSIC STUDIO</p>
@@ -203,7 +57,6 @@ padding:8px
 </div>
 
 <div class="settings">
-
 <select id="duration">
 <option value="4">Helnode</option>
 <option value="2">Halvnode</option>
@@ -231,7 +84,6 @@ padding:8px
 <option value="2">2/4 takt</option>
 <option value="6">6/8 takt</option>
 </select>
-
 </div>
 
 <div class="controls">
@@ -252,7 +104,7 @@ padding:8px
 <button onclick="clearNotes()">🗑 SLET NODER</button>
 </div>
 
-<div class="status" id="status">Klar til at spille</div>
+<div class="status" id="status">Indlæser koncertflygel...</div>
 
 <div class="keyboardScroll">
 <div class="keyboard" id="keyboard"></div>
@@ -276,162 +128,115 @@ const statusBox=document.getElementById("status");
 let notes=[];
 let recording=false;
 let playing=false;
-let audio=null;
-let master=null;
-let reverb=null;
 let timers=[];
 let songs=[];
 
-const names=["C","C♯","D","D♯","E","F","F♯","G","G♯","A","A♯","B"];
+let piano=null;
+let reverb=null;
+let pianoReady=false;
+let loadingPromise=null;
 
-/* =========================
-   AUDIO ENGINE
-   Fyldigere lyd, blødere anslag
-   harmoniske toner og reverb
-========================= */
+const activeKeys=new Map();
 
-function audioEngine(){
+/* =====================================
+   REAL GRAND PIANO SAMPLES
+   Salamander Grand Piano
+===================================== */
 
- if(!audio){
-  audio=new(window.AudioContext||window.webkitAudioContext)();
+async function loadPiano(){
 
-  master=audio.createGain();
-  master.gain.value=0.72;
+ if(pianoReady)return;
+ if(loadingPromise)return loadingPromise;
 
-  reverb=audio.createConvolver();
-  reverb.buffer=createReverbBuffer(audio,2.8,2.4);
+ loadingPromise=(async()=>{
 
-  const wet=audio.createGain();
-  wet.gain.value=0.24;
+  statusBox.textContent="Indlæser koncertflygel...";
 
-  const dry=audio.createGain();
-  dry.gain.value=0.86;
+  await Tone.start();
 
-  master.connect(dry);
-  dry.connect(audio.destination);
+  reverb=new Tone.Reverb({
+   decay:3.5,
+   wet:0.22
+  });
 
-  master.connect(reverb);
-  reverb.connect(wet);
-  wet.connect(audio.destination);
- }
+  await reverb.ready;
 
- if(audio.state==="suspended"){
-  audio.resume();
- }
+  reverb.toDestination();
 
- return audio;
+  piano=new Tone.Sampler({
+
+   urls:{
+    "A0":"A0.mp3",
+    "C1":"C1.mp3",
+    "D#1":"Ds1.mp3",
+    "F#1":"Fs1.mp3",
+    "A1":"A1.mp3",
+
+    "C2":"C2.mp3",
+    "D#2":"Ds2.mp3",
+    "F#2":"Fs2.mp3",
+    "A2":"A2.mp3",
+
+    "C3":"C3.mp3",
+    "D#3":"Ds3.mp3",
+    "F#3":"Fs3.mp3",
+    "A3":"A3.mp3",
+
+    "C4":"C4.mp3",
+    "D#4":"Ds4.mp3",
+    "F#4":"Fs4.mp3",
+    "A4":"A4.mp3",
+
+    "C5":"C5.mp3",
+    "D#5":"Ds5.mp3",
+    "F#5":"Fs5.mp3",
+    "A5":"A5.mp3",
+
+    "C6":"C6.mp3",
+    "D#6":"Ds6.mp3",
+    "F#6":"Fs6.mp3",
+    "A6":"A6.mp3",
+
+    "C7":"C7.mp3",
+    "D#7":"Ds7.mp3",
+    "F#7":"Fs7.mp3",
+    "A7":"A7.mp3",
+
+    "C8":"C8.mp3"
+   },
+
+   baseUrl:"https://tonejs.github.io/audio/salamander/",
+
+   attack:0.02,
+   release:1.4,
+   curve:"exponential"
+
+  }).connect(reverb);
+
+  await piano.loaded;
+
+  pianoReady=true;
+  statusBox.textContent="Koncertflygel klar 🎹";
+
+ })();
+
+ return loadingPromise;
 }
 
-/* Lav en blød rumklang uden eksterne filer */
-function createReverbBuffer(ac,seconds,decay){
-
- const length=Math.floor(ac.sampleRate*seconds);
- const buffer=ac.createBuffer(2,length,ac.sampleRate);
-
- for(let channel=0;channel<2;channel++){
-  const data=buffer.getChannelData(channel);
-
-  for(let i=0;i<length;i++){
-   const fade=Math.pow(1-i/length,decay);
-   data[i]=(Math.random()*2-1)*fade;
-  }
- }
-
- return buffer;
+/* MIDI to piano note name */
+function midiName(midi){
+ return Tone.Frequency(midi,"midi").toNote();
 }
 
-/* Forbedret klaverlyd */
-function sound(midi,duration){
-
- const ac=audioEngine();
- const now=ac.currentTime;
-
- const fundamental=440*Math.pow(2,(midi-69)/12);
-
- const noteGain=ac.createGain();
- const filter=ac.createBiquadFilter();
-
- filter.type="lowpass";
- filter.frequency.setValueAtTime(5200,now);
- filter.frequency.exponentialRampToValueAtTime(
-  2400,
-  now+Math.max(0.2,duration)
- );
-
- noteGain.gain.setValueAtTime(0.0001,now);
-
- /* Blødere anslag */
- noteGain.gain.linearRampToValueAtTime(0.22,now+0.035);
-
- /* Klangens naturlige fald */
- noteGain.gain.exponentialRampToValueAtTime(
-  0.105,
-  now+0.35
- );
-
- noteGain.gain.exponentialRampToValueAtTime(
-  0.0001,
-  now+duration+1.15
- );
-
- filter.connect(noteGain);
- noteGain.connect(master);
-
- /* Flere harmoniske overtoner */
- const partials=[
-  {ratio:1,gain:1.00,type:"triangle",detune:0},
-  {ratio:2,gain:0.38,type:"sine",detune:0},
-  {ratio:3,gain:0.19,type:"sine",detune:1},
-  {ratio:4,gain:0.10,type:"sine",detune:-1},
-  {ratio:5,gain:0.045,type:"sine",detune:1},
-  {ratio:6,gain:0.022,type:"sine",detune:-1}
- ];
-
- partials.forEach(partial=>{
-
-  const osc=ac.createOscillator();
-  const gain=ac.createGain();
-
-  osc.type=partial.type;
-  osc.frequency.setValueAtTime(
-   fundamental*partial.ratio,
-   now
-  );
-
-  osc.detune.value=partial.detune;
-
-  gain.gain.value=partial.gain;
-
-  osc.connect(gain);
-  gain.connect(filter);
-
-  osc.start(now);
-  osc.stop(now+duration+1.2);
-
-  osc.onended=()=>{
-   osc.disconnect();
-   gain.disconnect();
-  };
- });
-
- setTimeout(()=>{
-  try{
-   filter.disconnect();
-   noteGain.disconnect();
-  }catch(e){}
- },(duration+1.5)*1000);
-}
-
-/* =========================
+/* =====================================
    KEYBOARD
-========================= */
+===================================== */
 
 function buildKeys(){
 
  keyboard.innerHTML="";
  const whites=[];
 
- // C3 til B5
  for(let m=48;m<=83;m++){
 
   if(![1,3,6,8,10].includes(m%12)){
@@ -446,7 +251,7 @@ function buildKeys(){
 
    k.onpointerdown=e=>{
     e.preventDefault();
-    press(m,k);
+    startKey(m,k);
    };
 
    keyboard.appendChild(k);
@@ -463,7 +268,7 @@ function buildKeys(){
   k.dataset.midi=m;
 
   const idx=whites.findIndex(
-   w=>+w.dataset.midi===m-1
+   w=>Number(w.dataset.midi)===m-1
   );
 
   if(idx<0)continue;
@@ -472,43 +277,78 @@ function buildKeys(){
 
   k.onpointerdown=e=>{
    e.preventDefault();
-   press(m,k);
+   startKey(m,k);
   };
 
   keyboard.appendChild(k);
  }
 }
 
-/* =========================
-   PLAY NOTE
-========================= */
+/* =====================================
+   HOLD NOTE WHILE FINGER IS DOWN
+===================================== */
 
-function press(midi,key){
+async function startKey(midi,key){
 
- const val=Number(document.getElementById("duration").value);
- const bpm=Number(document.getElementById("tempo").value);
- const beatMs=60000/bpm;
- const durationSeconds=(val*beatMs/1000)*0.85;
-
- sound(midi,durationSeconds);
+ if(activeKeys.has(midi))return;
 
  key.classList.add("active");
 
- setTimeout(()=>{
-  key.classList.remove("active");
- },150);
+ activeKeys.set(midi,key);
+
+ try{
+
+  await loadPiano();
+
+  if(!activeKeys.has(midi))return;
+
+  piano.triggerAttack(midiName(midi));
+
+ }catch(e){
+
+  statusBox.textContent="Kunne ikke indlæse flygellyden. Kontrollér internet.";
+ }
+
+ /* Add note to sheet/music */
+ const val=Number(document.getElementById("duration").value);
 
  notes.push({
-  midi,
+  midi:midi,
   duration:val
  });
 
  draw();
 }
 
-/* =========================
+/* Release note when finger lifts */
+function releaseKey(midi){
+
+ const key=activeKeys.get(midi);
+
+ if(!key)return;
+
+ activeKeys.delete(midi);
+ key.classList.remove("active");
+
+ if(piano&&pianoReady){
+
+  try{
+   piano.triggerRelease(midiName(midi));
+  }catch(e){}
+ }
+}
+
+function releaseAllKeys(){
+
+ Array.from(activeKeys.keys()).forEach(releaseKey);
+}
+
+window.addEventListener("pointerup",releaseAllKeys);
+window.addEventListener("pointercancel",releaseAllKeys);
+
+/* =====================================
    RECORD
-========================= */
+===================================== */
 
 function record(){
 
@@ -516,9 +356,9 @@ function record(){
  statusBox.textContent="● Optagelse aktiv. Spil på klaveret.";
 }
 
-/* =========================
+/* =====================================
    STOP
-========================= */
+===================================== */
 
 function stop(){
 
@@ -528,19 +368,23 @@ function stop(){
  timers.forEach(clearTimeout);
  timers=[];
 
+ releaseAllKeys();
+
  statusBox.textContent="Stoppet";
 }
 
-/* =========================
-   PLAY SONG
-========================= */
+/* =====================================
+   PLAY
+===================================== */
 
-function play(){
+async function play(){
 
  if(!notes.length){
   statusBox.textContent="Spil nogle toner først";
   return;
  }
+
+ await loadPiano();
 
  stop();
  playing=true;
@@ -560,12 +404,19 @@ function play(){
 
    if(!playing)return;
 
-   sound(
-    n.midi,
-    n.duration*beat/1000*0.85
-   );
+   const note=midiName(n.midi);
+
+   piano.triggerAttack(note);
 
    flash(n.midi);
+
+   const noteLength=n.duration*beat;
+
+   timers.push(setTimeout(()=>{
+    if(playing){
+     piano.triggerRelease(note);
+    }
+   },noteLength));
 
   },delay));
 
@@ -577,12 +428,12 @@ function play(){
   playing=false;
   statusBox.textContent="Afspilning færdig";
 
- },time+100));
+ },time+150));
 }
 
-/* =========================
-   KEY FLASH
-========================= */
+/* =====================================
+   FLASH KEY
+===================================== */
 
 function flash(midi){
 
@@ -600,9 +451,9 @@ function flash(midi){
  }
 }
 
-/* =========================
+/* =====================================
    UNDO
-========================= */
+===================================== */
 
 function undo(){
 
@@ -612,14 +463,13 @@ function undo(){
  statusBox.textContent="Sidste node fjernet";
 }
 
-/* =========================
+/* =====================================
    NEW SONG
-========================= */
+===================================== */
 
 function newSong(){
 
  stop();
-
  notes=[];
 
  document.getElementById("songTitle").value="";
@@ -629,9 +479,9 @@ function newSong(){
  statusBox.textContent="Ny komposition";
 }
 
-/* =========================
-   CLEAR
-========================= */
+/* =====================================
+   CLEAR NOTES
+===================================== */
 
 function clearNotes(){
 
@@ -644,14 +494,13 @@ function clearNotes(){
  }
 }
 
-/* =========================
-   SAVE SONG
-========================= */
+/* =====================================
+   SAVE
+===================================== */
 
 function save(){
 
  if(!notes.length){
-
   statusBox.textContent="Der er ingen noder at gemme";
   return;
  }
@@ -681,9 +530,9 @@ function save(){
  statusBox.textContent="Komposition gemt!";
 }
 
-/* =========================
-   LIBRARY STORAGE
-========================= */
+/* =====================================
+   LIBRARY
+===================================== */
 
 function saveLibrary(){
 
@@ -716,14 +565,9 @@ function loadLibrary(){
  renderLibrary();
 }
 
-/* =========================
-   LIBRARY DISPLAY
-========================= */
-
 function renderLibrary(){
 
  const box=document.getElementById("library");
-
  box.innerHTML="";
 
  songs.slice().reverse().forEach(s=>{
@@ -737,22 +581,16 @@ function renderLibrary(){
   const load=document.createElement("button");
   load.className="gold";
   load.textContent="ÅBN";
-
   load.onclick=()=>loadSong(s);
 
   const del=document.createElement("button");
   del.textContent="✕";
-
   del.onclick=()=>deleteSong(s.id);
 
   row.append(label,load,del);
   box.appendChild(row);
  });
 }
-
-/* =========================
-   LOAD SONG
-========================= */
 
 function loadSong(s){
 
@@ -769,10 +607,6 @@ function loadSong(s){
  statusBox.textContent="Komposition åbnet: "+s.title;
 }
 
-/* =========================
-   DELETE SONG
-========================= */
-
 function deleteSong(id){
 
  songs=songs.filter(s=>s.id!==id);
@@ -781,9 +615,9 @@ function deleteSong(id){
  renderLibrary();
 }
 
-/* =========================
+/* =====================================
    EXPORT
-========================= */
+===================================== */
 
 function exportMusic(){
 
@@ -816,19 +650,17 @@ function exportMusic(){
  statusBox.textContent="Musikfil eksporteret";
 }
 
-/* =========================
+/* =====================================
    IMPORT
-========================= */
+===================================== */
 
 function importMusic(){
-
  document.getElementById("importFile").click();
 }
 
 document.getElementById("importFile").onchange=function(e){
 
  const file=e.target.files[0];
-
  if(!file)return;
 
  const reader=new FileReader();
@@ -859,9 +691,9 @@ document.getElementById("importFile").onchange=function(e){
  e.target.value="";
 };
 
-/* =========================
+/* =====================================
    DRAW SHEET
-========================= */
+===================================== */
 
 function draw(){
 
@@ -884,7 +716,6 @@ function draw(){
  const x0=85;
  const noteSpacing=24;
 
- /* Staff lines */
  ctx.strokeStyle="#222";
  ctx.lineWidth=1;
 
@@ -898,38 +729,31 @@ function draw(){
   ctx.stroke();
  }
 
- /* Treble clef */
  ctx.fillStyle="#222";
  ctx.font="58px serif";
  ctx.fillText("𝄞",22,top+50);
 
- /* Title */
  ctx.font="16px Arial";
 
  ctx.fillText(
-  document.getElementById("songTitle").value||
-  "Golden Piano",
+  document.getElementById("songTitle").value||"Golden Piano",
   95,
   28
  );
 
- /* Notes */
  notes.forEach((n,i)=>{
 
   const midi=n.midi;
   const pitch=midi%12;
   const octave=Math.floor(midi/12)-1;
 
-  const diatonic=[
-   0,0,1,1,2,3,3,4,4,5,5,6
-  ][pitch];
+  const diatonic=[0,0,1,1,2,3,3,4,4,5,5,6][pitch];
 
   const step=(octave-4)*7+diatonic-2;
 
   const y=top+4*gap-step*(gap/2);
   const x=x0+i*noteSpacing;
 
-  /* Ledger lines */
   if(y>top+4*gap||y<top){
 
    ctx.strokeStyle="#222";
@@ -940,20 +764,17 @@ function draw(){
    ctx.stroke();
   }
 
-  /* Note head */
   ctx.fillStyle="#111";
 
   ctx.beginPath();
   ctx.ellipse(x,y,7,5,-0.3,0,Math.PI*2);
   ctx.fill();
 
-  /* Stem */
   ctx.beginPath();
   ctx.moveTo(x+6,y);
   ctx.lineTo(x+6,y-32);
   ctx.stroke();
 
-  /* Flag */
   if(n.duration===0.5){
 
    ctx.beginPath();
@@ -962,14 +783,12 @@ function draw(){
    ctx.stroke();
   }
 
-  /* Sharp */
   if([1,3,6,8,10].includes(pitch)){
 
    ctx.font="16px Arial";
    ctx.fillText("♯",x-17,y+5);
   }
 
-  /* Bar lines */
   const beatsPerBar=
    Number(document.getElementById("signature").value);
 
@@ -988,22 +807,13 @@ function draw(){
   }
  });
 
- /* Note count */
  ctx.fillStyle="#777";
  ctx.font="12px Arial";
 
- ctx.fillText(
-  notes.length+" noder",
-  w-80,
-  h-12
- );
+ ctx.fillText(notes.length+" noder",w-80,h-12);
 }
 
 window.onresize=draw;
-
-/* =========================
-   START
-========================= */
 
 buildKeys();
 loadLibrary();
