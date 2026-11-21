@@ -1,617 +1,571 @@
-
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111111">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Golden Piano</title>
+
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;background:#111;color:#f2ead7;
- font-family:Arial,sans-serif;
+  margin:0;
+  background:#10131a;
+  color:#f4f4f7;
+  font-family:Arial,sans-serif;
+  padding:14px
 }
-header{
- text-align:center;padding:18px 8px 12px;
- color:#d8b45b;
+
+h1{
+  text-align:center;
+  margin:8px 0 14px;
+  font-size:26px
 }
-header h1{margin:0;font-size:27px;letter-spacing:4px}
-header p{color:#888;font-size:11px;letter-spacing:2px}
-main{max-width:900px;margin:auto;padding:10px}
-input,select{
- width:100%;padding:12px;background:#202020;
- border:1px solid #554526;color:#eee;border-radius:8px;
- font-size:15px;
+
+.panel{
+  background:#202633;
+  border:1px solid #394252;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:12px
 }
-#songTitle{margin-bottom:10px}
-.sheet{background:#fffdf5;border-radius:9px;overflow:hidden}
-#staff{display:block;width:100%;height:auto}
-.settings{
- display:grid;grid-template-columns:1fr 1fr 1fr;
- gap:7px;margin:10px 0
+
+#status{
+  color:#b9c5d8;
+  text-align:center;
+  min-height:22px;
+  font-size:14px;
+  margin-bottom:10px
 }
-.settings select{padding:10px 3px;font-size:13px}
-.buttons{
- display:grid;grid-template-columns:repeat(3,1fr);
- gap:7px;margin:8px 0
+
+.keyboard-wrap{
+  overflow-x:auto;
+  padding:8px 0 12px;
+  touch-action:pan-x
 }
-button{
- border:1px solid #494949;background:#282828;color:#eee;
- border-radius:8px;padding:12px 4px;font-size:13px;
- font-weight:bold;cursor:pointer
-}
-.gold{background:#c6a04b;color:#17130b;border-color:#c6a04b}
-.status{
- text-align:center;min-height:25px;padding:7px;
- color:#d8b45b;font-size:13px
-}
-.keyboardScroll{overflow-x:auto;padding:5px 0 14px}
+
 .keyboard{
- position:relative;display:flex;height:210px;min-width:780px;
- touch-action:pan-x;user-select:none
+  position:relative;
+  display:flex;
+  width:max-content;
+  height:230px;
+  user-select:none;
+  touch-action:none
 }
-.whitekey{
- flex:1;position:relative;background:linear-gradient(#fff,#e5e1d8);
- border:1px solid #777;border-radius:0 0 5px 5px;
- display:flex;align-items:flex-end;justify-content:center;
- padding-bottom:9px;color:#222;z-index:1
+
+.white{
+  position:relative;
+  width:48px;
+  height:230px;
+  background:#fff;
+  border:1px solid #222;
+  border-radius:0 0 6px 6px;
+  color:#111;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:8px;
+  z-index:1
 }
-.whitekey.active{background:#d4b25b}
-.blackkey{
- position:absolute;top:0;width:4.1%;height:125px;
- background:linear-gradient(#333,#050505);
- border:1px solid #000;border-radius:0 0 5px 5px;
- color:#fff;z-index:3;display:flex;align-items:flex-end;
- justify-content:center;padding-bottom:6px
+
+.black{
+  position:absolute;
+  width:30px;
+  height:145px;
+  background:#111;
+  border:1px solid #555;
+  border-radius:0 0 5px 5px;
+  color:white;
+  z-index:3;
+  margin-left:-15px;
+  top:0;
+  box-shadow:0 3px 5px #0008
 }
-.blackkey.active{background:#b68d39}
-.library{
- margin-top:15px;background:#1c1c1c;border:1px solid #333;
- border-radius:10px;padding:12px
+
+.key.active{
+  background:#d9b45b!important;
+  color:#111!important
 }
-.library h3{margin:0 0 10px;color:#d8b45b}
-.songrow{
- display:flex;align-items:center;gap:6px;padding:9px 0;
- border-bottom:1px solid #333
+
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center
 }
-.songrow span{flex:1;overflow-wrap:anywhere;font-size:13px}
-.songrow button{padding:8px 10px}
-.empty{color:#777;font-size:13px;padding:8px 0}
-@media(max-width:450px){
- header h1{font-size:24px}
- .keyboard{height:185px}
- .blackkey{height:110px}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:11px 14px;
+  background:#d7ae51;
+  color:#111;
+  font-weight:bold;
+  font-size:15px
+}
+
+button.secondary{
+  background:#394252;
+  color:#fff
+}
+
+button:active{
+  transform:scale(.98)
+}
+
+#notes{
+  min-height:90px;
+  white-space:pre-wrap;
+  line-height:1.5;
+  background:#141923;
+  padding:10px;
+  border-radius:8px;
+  max-height:180px;
+  overflow:auto
+}
+
+@media(max-width:420px){
+  .white{width:43px}
+  .keyboard{height:210px}
+  .white{height:210px}
+  .black{
+    height:132px;
+    width:27px;
+    margin-left:-13.5px
+  }
 }
 </style>
 </head>
+
 <body>
-<header>
-<h1>GOLDEN PIANO</h1>
-<p>YOUR PERSONAL MUSIC STUDIO</p>
-</header>
 
-<main>
+<h1>🎹 Golden Piano</h1>
 
-<input id="songTitle" placeholder="Navn på dit musikstykke">
-
-<div class="sheet">
-<canvas id="staff"></canvas>
+<div class="panel">
+  <div id="status">Loading piano sound…</div>
+  <div class="keyboard-wrap">
+    <div id="keyboard" class="keyboard"></div>
+  </div>
 </div>
 
-<div class="settings">
-<select id="duration">
-<option value="4">Helnode</option>
-<option value="2">Halvnode</option>
-<option value="1" selected>Fjerdedelsnode</option>
-<option value="0.5">Ottendedelsnode</option>
-<option value="0.25">Sekstendedelsnode</option>
-</select>
-
-<select id="tempo">
-<option value="60">60 BPM</option>
-<option value="70">70 BPM</option>
-<option value="80">80 BPM</option>
-<option value="90">90 BPM</option>
-<option value="100" selected>100 BPM</option>
-<option value="110">110 BPM</option>
-<option value="120">120 BPM</option>
-<option value="140">140 BPM</option>
-<option value="160">160 BPM</option>
-<option value="180">180 BPM</option>
-</select>
-
-<select id="signature">
-<option value="4">4/4 takt</option>
-<option value="3">3/4 takt</option>
-<option value="2">2/4 takt</option>
-<option value="6">6/8 takt</option>
-</select>
+<div class="panel">
+  <div class="controls">
+    <button id="sustain" class="secondary">Sustain: OFF</button>
+    <button id="record">● Record</button>
+    <button id="play">▶ Play</button>
+    <button id="stop" class="secondary">■ Stop</button>
+    <button id="save" class="secondary">Save</button>
+    <button id="export" class="secondary">Export</button>
+    <button id="import" class="secondary">Import</button>
+    <input id="file" type="file" accept="application/json,.json" hidden>
+  </div>
 </div>
 
-<div class="buttons">
-<button class="gold" onclick="startRecording()">● OPTAG</button>
-<button class="gold" onclick="playMusic()">▶ AFSPIL</button>
-<button onclick="stopMusic()">■ STOP</button>
+<div class="panel">
+  <strong>Played notes</strong>
+  <div id="notes">Your notes will appear here.</div>
 </div>
-
-<div class="buttons">
-<button onclick="undoNote()">↶ FORTRYD</button>
-<button class="gold" onclick="saveSong()">💾 GEM</button>
-<button onclick="newSong()">＋ NY SANG</button>
-</div>
-
-<div class="buttons">
-<button onclick="exportSong()">📤 EKSPORT</button>
-<button onclick="importSong()">📥 IMPORT</button>
-<button onclick="deleteNotes()">🗑 SLET NODER</button>
-</div>
-
-<div class="status" id="status">Klar. Tryk OPTAG og spil.</div>
-
-<div class="keyboardScroll">
-<div class="keyboard" id="keyboard"></div>
-</div>
-
-<div class="library">
-<h3>🎼 MINE KOMPOSITIONER</h3>
-<div id="libraryList"></div>
-</div>
-
-<input type="file" id="fileInput" accept=".json" hidden>
-
-</main>
 
 <script>
-const keyboard=document.getElementById("keyboard");
-const canvas=document.getElementById("staff");
-const ctx=canvas.getContext("2d");
-const statusBox=document.getElementById("status");
-
-let notes=[];
-let recording=false;
-let playing=false;
-let audio=null;
-let playTimers=[];
-let songs=[];
-
-const blackPitches=[1,3,6,8,10];
-const noteLetters=["C","D","E","F","G","A","B"];
-const pitchLetters=[0,0,1,1,2,3,3,4,4,5,5,6];
-
-function audioEngine(){
- if(!audio){
-  audio=new(window.AudioContext||window.webkitAudioContext)();
- }
- if(audio.state==="suspended")audio.resume();
- return audio;
-}
-
-function playTone(midi,seconds){
- const ac=audioEngine();
- const osc=ac.createOscillator();
- const gain=ac.createGain();
-
- osc.type="triangle";
- osc.frequency.value=440*Math.pow(2,(midi-69)/12);
-
- gain.gain.setValueAtTime(0.0001,ac.currentTime);
- gain.gain.exponentialRampToValueAtTime(0.15,ac.currentTime+0.025);
- gain.gain.exponentialRampToValueAtTime(0.0001,ac.currentTime+seconds);
-
- osc.connect(gain);
- gain.connect(ac.destination);
- osc.start();
- osc.stop(ac.currentTime+seconds+0.04);
-}
-
-function buildKeyboard(){
- keyboard.innerHTML="";
- const whites=[];
-
- // Tre oktaver: C3 til B5
- for(let midi=48;midi<=83;midi++){
-  if(blackPitches.includes(midi%12))continue;
-
-  const key=document.createElement("div");
-  key.className="whitekey";
-  key.dataset.midi=midi;
-
-  if(midi%12===0){
-   key.textContent="C"+(Math.floor(midi/12)-1);
-  }
-
-  key.addEventListener("pointerdown",e=>{
-   e.preventDefault();
-   playKey(midi,key);
-  });
-
-  keyboard.appendChild(key);
-  whites.push(key);
- }
-
- // Sorte tangenter
- for(let midi=49;midi<=82;midi++){
-  if(!blackPitches.includes(midi%12))continue;
-
-  const key=document.createElement("div");
-  key.className="blackkey";
-  key.dataset.midi=midi;
-
-  const index=whites.findIndex(k=>Number(k.dataset.midi)===midi-1);
-  if(index<0)continue;
-
-  key.style.left=((index+1)*100/whites.length)+"%";
-
-  key.addEventListener("pointerdown",e=>{
-   e.preventDefault();
-   playKey(midi,key);
-  });
-
-  keyboard.appendChild(key);
- }
-}
-
-function playKey(midi,key){
- const beats=Number(document.getElementById("duration").value);
- const bpm=Number(document.getElementById("tempo").value);
- const seconds=beats*60/bpm;
-
- playTone(midi,Math.max(0.15,seconds*0.85));
-
- key.classList.add("active");
- setTimeout(()=>key.classList.remove("active"),160);
-
- if(recording){
-  notes.push({midi:midi,beats:beats});
-  drawStaff();
- }
-}
-
-function startRecording(){
- stopMusic();
- notes=[];
- recording=true;
- drawStaff();
- statusBox.textContent="● OPTAGELSE. Spil din melodi.";
-}
-
-function stopMusic(){
- recording=false;
- playing=false;
- playTimers.forEach(t=>clearTimeout(t));
- playTimers=[];
- statusBox.textContent="Stoppet";
-}
-
-function playMusic(){
- if(!notes.length){
-  statusBox.textContent="Optag en melodi først";
-  return;
- }
-
- stopMusic();
- recording=false;
- playing=true;
- statusBox.textContent="▶ Afspiller musik";
-
- const bpm=Number(document.getElementById("tempo").value);
- const beatMs=60000/bpm;
- let elapsed=0;
-
- notes.forEach(note=>{
-  const delay=elapsed;
-  playTimers.push(setTimeout(()=>{
-   if(!playing)return;
-   playTone(note.midi,Math.max(0.15,note.beats*beatMs/1000*0.85));
-   flashKey(note.midi);
-  },delay));
-
-  elapsed+=note.beats*beatMs;
- });
-
- playTimers.push(setTimeout(()=>{
-  playing=false;
-  statusBox.textContent="Afspilning færdig";
- },elapsed+100));
-}
-
-function flashKey(midi){
- const key=keyboard.querySelector('[data-midi="'+midi+'"]');
- if(!key)return;
- key.classList.add("active");
- setTimeout(()=>key.classList.remove("active"),180);
-}
-
-function undoNote(){
- if(notes.length)notes.pop();
- drawStaff();
- statusBox.textContent="Sidste node fjernet";
-}
-
-function newSong(){
- stopMusic();
- notes=[];
- document.getElementById("songTitle").value="";
- drawStaff();
- statusBox.textContent="Ny komposition";
-}
-
-function deleteNotes(){
- if(!confirm("Slet alle noder?"))return;
- notes=[];
- drawStaff();
- statusBox.textContent="Noder slettet";
-}
-
-function saveSong(){
- if(!notes.length){
-  statusBox.textContent="Der er ingen noder at gemme";
-  return;
- }
-
- const song={
-  id:Date.now(),
-  title:document.getElementById("songTitle").value.trim()||"Min komposition",
-  tempo:Number(document.getElementById("tempo").value),
-  signature:document.getElementById("signature").value,
-  notes:JSON.parse(JSON.stringify(notes)),
-  date:new Date().toLocaleDateString("da-DK")
- };
-
- songs.push(song);
- saveLibrary();
- renderLibrary();
- statusBox.textContent="Komposition gemt!";
-}
-
-function saveLibrary(){
- try{
-  localStorage.setItem("goldenPianoSongs",JSON.stringify(songs));
- }catch(e){
-  statusBox.textContent="Lagring mislykkedes. Lagerplads kan være fuld.";
- }
-}
-
-function loadLibrary(){
- try{
-  songs=JSON.parse(localStorage.getItem("goldenPianoSongs")||"[]");
- }catch(e){
-  songs=[];
- }
- renderLibrary();
-}
-
-function renderLibrary(){
- const list=document.getElementById("libraryList");
- list.innerHTML="";
-
- if(!songs.length){
-  list.innerHTML='<div class="empty">Ingen gemte kompositioner endnu.</div>';
-  return;
- }
-
- songs.slice().reverse().forEach(song=>{
-  const row=document.createElement("div");
-  row.className="songrow";
-
-  const name=document.createElement("span");
-  name.textContent=song.title+" · "+song.date;
-
-  const open=document.createElement("button");
-  open.className="gold";
-  open.textContent="ÅBN";
-  open.onclick=()=>loadSong(song);
-
-  const del=document.createElement("button");
-  del.textContent="✕";
-  del.onclick=()=>deleteSong(song.id);
-
-  row.append(name,open,del);
-  list.appendChild(row);
- });
-}
-
-function loadSong(song){
- stopMusic();
- notes=JSON.parse(JSON.stringify(song.notes));
- document.getElementById("songTitle").value=song.title;
- document.getElementById("tempo").value=song.tempo;
- document.getElementById("signature").value=song.signature;
- drawStaff();
- statusBox.textContent="Åbnet: "+song.title;
-}
-
-function deleteSong(id){
- songs=songs.filter(s=>s.id!==id);
- saveLibrary();
- renderLibrary();
-}
-
-function exportSong(){
- const data={
-  title:document.getElementById("songTitle").value||"Golden Piano",
-  tempo:Number(document.getElementById("tempo").value),
-  signature:document.getElementById("signature").value,
-  notes:notes
- };
-
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob);
- const link=document.createElement("a");
- link.href=url;
- link.download="GoldenPiano-komposition.json";
- link.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
- statusBox.textContent="Komposition eksporteret";
-}
-
-function importSong(){
- document.getElementById("fileInput").click();
-}
-
-document.getElementById("fileInput").addEventListener("change",e=>{
- const file=e.target.files[0];
- if(!file)return;
-
- const reader=new FileReader();
- reader.onload=()=>{
-  try{
-   const data=JSON.parse(reader.result);
-   if(!Array.isArray(data.notes))throw new Error("Invalid music file");
-
-   notes=data.notes;
-   document.getElementById("songTitle").value=data.title||"";
-   document.getElementById("tempo").value=data.tempo||100;
-   document.getElementById("signature").value=data.signature||4;
-   drawStaff();
-   statusBox.textContent="Musik importeret";
-  }catch(err){
-   statusBox.textContent="Filen kunne ikke indlæses";
-  }
- };
- reader.readAsText(file);
- e.target.value="";
-});
-
-// Nodeark tegning
-function drawStaff(){
- const w=Math.max(280,canvas.clientWidth);
- const notesPerLine=Math.max(12,Math.floor((w-105)/18));
- const systems=Math.max(1,Math.ceil(notes.length/notesPerLine));
- const systemHeight=135;
- const h=systems*systemHeight+30;
- const dpr=window.devicePixelRatio||1;
-
- canvas.style.height=h+"px";
- canvas.width=w*dpr;
- canvas.height=h*dpr;
- ctx.setTransform(dpr,0,0,dpr,0,0);
-
- ctx.fillStyle="#fffdf5";
- ctx.fillRect(0,0,w,h);
-
- const title=document.getElementById("songTitle").value||"Golden Piano";
- ctx.fillStyle="#222";
- ctx.font="15px Arial";
- ctx.fillText(title,18,22);
-
- const staffTop=43;
- const lineGap=10;
- const noteXStart=75;
- const noteStep=(w-noteXStart-15)/notesPerLine;
-
- for(let system=0;system<systems;system++){
-  const top=staffTop+system*systemHeight;
-
-  // Fem node-linjer
-  ctx.strokeStyle="#222";
-  ctx.lineWidth=1;
-  for(let line=0;line<5;line++){
-   const y=top+line*lineGap;
-   ctx.beginPath();
-   ctx.moveTo(12,y);
-   ctx.lineTo(w-12,y);
-   ctx.stroke();
-  }
-
-  // G-nøgle
-  ctx.fillStyle="#111";
-  ctx.font="44px serif";
-  ctx.fillText("𝄞",18,top+39);
-
-  // Noder
-  for(let i=0;i<notesPerLine;i++){
-   const index=system*notesPerLine+i;
-   if(index>=notes.length)break;
-
-   const n=notes[index];
-   const midi=n.midi;
-   const pitch=midi%12;
-   const octave=Math.floor(midi/12)-1;
-   const diatonic=pitchLetters[pitch];
-   const absoluteStep=octave*7+diatonic;
-   const referenceStep=4*7+2; // E4
-   const step=absoluteStep-referenceStep;
-
-   const x=noteXStart+i*noteStep;
-   const y=top+4*lineGap-step*(lineGap/2);
-
-   // Ledger lines
-   if(y<top-1||y>top+4*lineGap+1){
-    ctx.strokeStyle="#222";
-    for(let ledger=top-10;ledger>=y;ledger-=10){
-     if(y<top){
-      ctx.beginPath();ctx.moveTo(x-8,ledger);ctx.lineTo(x+8,ledger);ctx.stroke();
-     }
+(() => {
+
+  const keyboard = document.getElementById('keyboard');
+  const status = document.getElementById('status');
+  const notesBox = document.getElementById('notes');
+  const sustainBtn = document.getElementById('sustain');
+  const fileInput = document.getElementById('file');
+
+  const whiteNotes = ['C','D','E','F','G','A','B'];
+  const blackAfter = new Set(['C','D','F','G','A']);
+
+  const active = new Map();
+  const held = new Set();
+
+  let soundfont = null;
+  let audioCtx = null;
+  let sustain = false;
+  let recording = false;
+  let recordStart = 0;
+  let recorded = [];
+  let playbackTimers = [];
+
+  const notesText = [];
+
+  const midiName = (m) => {
+    const names = [
+      'C','C#','D','D#','E','F',
+      'F#','G','G#','A','A#','B'
+    ];
+    return names[m % 12] + (Math.floor(m / 12) - 1);
+  };
+
+  function buildKeyboard(){
+
+    let whiteIndex = 0;
+
+    for(let octave = 3; octave <= 4; octave++){
+
+      for(const n of whiteNotes){
+
+        const midiNote =
+          (octave + 1) * 12 +
+          ['C','D','E','F','G','A','B'].indexOf(n);
+
+        const key = document.createElement('div');
+
+        key.className = 'key white';
+        key.dataset.midi = midiNote;
+        key.textContent = n + (octave === 4 ? '4' : '');
+
+        key.addEventListener('pointerdown', e => {
+          e.preventDefault();
+          key.setPointerCapture(e.pointerId);
+          noteOn(midiNote,key);
+        });
+
+        key.addEventListener('pointerup', e => {
+          e.preventDefault();
+          noteOff(midiNote,key);
+        });
+
+        key.addEventListener('pointercancel', () => {
+          noteOff(midiNote,key);
+        });
+
+        key.addEventListener('lostpointercapture', () => {
+          noteOff(midiNote,key);
+        });
+
+        keyboard.appendChild(key);
+        whiteIndex++;
+
+        if(blackAfter.has(n)){
+
+          const blackMidi = midiNote + 1;
+          const black = document.createElement('div');
+
+          black.className = 'key black';
+          black.dataset.midi = blackMidi;
+          black.textContent = '';
+
+          black.style.left = (whiteIndex * 48 - 15) + 'px';
+
+          black.addEventListener('pointerdown', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            black.setPointerCapture(e.pointerId);
+            noteOn(blackMidi,black);
+          });
+
+          black.addEventListener('pointerup', e => {
+            e.preventDefault();
+            noteOff(blackMidi,black);
+          });
+
+          black.addEventListener('pointercancel', () => {
+            noteOff(blackMidi,black);
+          });
+
+          black.addEventListener('lostpointercapture', () => {
+            noteOff(blackMidi,black);
+          });
+
+          keyboard.appendChild(black);
+        }
+      }
     }
-    for(let ledger=top+50;ledger<=y;ledger+=10){
-     if(y>top+40){
-      ctx.beginPath();ctx.moveTo(x-8,ledger);ctx.lineTo(x+8,ledger);ctx.stroke();
-     }
-    }
-   }
-
-   // Nodehoved
-   ctx.fillStyle="#111";
-   ctx.beginPath();
-   ctx.ellipse(x,y,6,4.5,-0.35,0,Math.PI*2);
-   ctx.fill();
-
-   // Stemme
-   const isWhole=n.beats>=4;
-   if(!isWhole){
-    ctx.beginPath();
-    ctx.moveTo(x+5,y);
-    ctx.lineTo(x+5,y-28);
-    ctx.stroke();
-   }
-
-   // Ottendedelsflag
-   if(n.beats<=0.5){
-    ctx.beginPath();
-    ctx.moveTo(x+5,y-28);
-    ctx.quadraticCurveTo(x+17,y-23,x+11,y-14);
-    ctx.stroke();
-   }
-
-   // Sekstendedelsflag
-   if(n.beats<=0.25){
-    ctx.beginPath();
-    ctx.moveTo(x+5,y-22);
-    ctx.quadraticCurveTo(x+17,y-17,x+11,y-8);
-    ctx.stroke();
-   }
-
-   // Fortegn
-   if(blackPitches.includes(pitch)){
-    ctx.font="15px Arial";
-    ctx.fillText("♯",x-16,y+4);
-   }
-
-   // Taktstreger efter samlet takt
-   const beatsPerBar=Number(document.getElementById("signature").value);
-   let total=0;
-   for(let j=0;j<=index;j++)total+=notes[j].beats;
-   if(Math.abs(total%beatsPerBar)<0.001&&index<notes.length-1){
-    ctx.beginPath();
-    ctx.moveTo(x+10,top-4);
-    ctx.lineTo(x+10,top+44);
-    ctx.stroke();
-   }
   }
- }
 
- ctx.fillStyle="#888";
- ctx.font="11px Arial";
- ctx.fillText(notes.length+" noder",w-65,h-10);
-}
+  function loadSound(){
 
-window.addEventListener("resize",drawStaff);
+    if(!window.Soundfont){
 
-buildKeyboard();
-loadLibrary();
-drawStaff();
+      status.textContent = 'Loading piano library…';
+
+      const s = document.createElement('script');
+
+      s.src =
+        'https://cdn.jsdelivr.net/npm/soundfont-player@0.12.0/dist/soundfont-player.min.js';
+
+      s.onload = loadSound;
+
+      s.onerror = () => {
+        status.textContent = 'Could not load sound library. Check internet connection.';
+      };
+
+      document.head.appendChild(s);
+      return;
+    }
+
+    audioCtx = audioCtx ||
+      new (window.AudioContext || window.webkitAudioContext)();
+
+    window.Soundfont.instrument(
+      audioCtx,
+      'acoustic_grand_piano',
+      {soundfont:'MusyngKite'}
+    )
+    .then(inst => {
+      soundfont = inst;
+      status.textContent = 'Grand Piano ready. Touch and hold keys to play.';
+    })
+    .catch(() => {
+      status.textContent = 'Piano sound failed to load. Please refresh with internet.';
+    });
+  }
+
+  function noteOn(m,key){
+
+    if(active.has(m)) return;
+
+    if(audioCtx && audioCtx.state === 'suspended'){
+      audioCtx.resume();
+    }
+
+    if(!soundfont) return;
+
+    const node = soundfont.play(
+      m,
+      audioCtx.currentTime,
+      {gain:0.9}
+    );
+
+    active.set(m,{node,key});
+    held.add(m);
+
+    key.classList.add('active');
+
+    if(recording){
+      recorded.push({
+        type:'on',
+        note:m,
+        time:Date.now()-recordStart
+      });
+    }
+
+    notesText.push(midiName(m));
+
+    notesBox.textContent =
+      notesText.slice(-70).join('  ');
+
+    notesBox.scrollTop = notesBox.scrollHeight;
+  }
+
+  function noteOff(m,key){
+
+    held.delete(m);
+
+    if(!active.has(m)) return;
+
+    const item = active.get(m);
+
+    if(!sustain){
+
+      try{
+        item.node.stop();
+      }catch(e){}
+
+      active.delete(m);
+      item.key.classList.remove('active');
+    }
+
+    if(recording){
+      recorded.push({
+        type:'off',
+        note:m,
+        time:Date.now()-recordStart
+      });
+    }
+  }
+
+  function releaseAll(){
+
+    for(const [m,item] of active){
+
+      try{
+        item.node.stop();
+      }catch(e){}
+
+      item.key.classList.remove('active');
+    }
+
+    active.clear();
+    held.clear();
+  }
+
+  function stopPlayback(){
+
+    playbackTimers.forEach(clearTimeout);
+    playbackTimers = [];
+
+    releaseAll();
+  }
+
+  sustainBtn.onclick = () => {
+
+    sustain = !sustain;
+
+    sustainBtn.textContent =
+      'Sustain: ' + (sustain ? 'ON' : 'OFF');
+
+    sustainBtn.classList.toggle('secondary',!sustain);
+
+    if(!sustain){
+
+      for(const [m,item] of active){
+
+        if(!held.has(m)){
+
+          try{
+            item.node.stop();
+          }catch(e){}
+
+          item.key.classList.remove('active');
+          active.delete(m);
+        }
+      }
+    }
+  };
+
+  document.getElementById('record').onclick = () => {
+
+    recording = !recording;
+
+    if(recording){
+
+      recorded = [];
+      recordStart = Date.now();
+
+      document.getElementById('record').textContent = '■ Finish';
+      status.textContent = 'Recording…';
+
+    }else{
+
+      document.getElementById('record').textContent = '● Record';
+      status.textContent = 'Recording saved in memory.';
+    }
+  };
+
+  document.getElementById('play').onclick = () => {
+
+    if(!recorded.length){
+      status.textContent = 'Record some notes first.';
+      return;
+    }
+
+    stopPlayback();
+
+    status.textContent = 'Playing recording…';
+
+    recorded.forEach(ev => {
+
+      const timer = setTimeout(() => {
+
+        const key = document.querySelector(
+          '.key[data-midi="' + ev.note + '"]'
+        );
+
+        if(ev.type === 'on' && key){
+          noteOn(ev.note,key);
+        }else if(ev.type === 'off' && key){
+          noteOff(ev.note,key);
+        }
+
+      },ev.time);
+
+      playbackTimers.push(timer);
+    });
+
+    playbackTimers.push(
+      setTimeout(
+        () => status.textContent = 'Playback finished.',
+        Math.max(...recorded.map(x => x.time)) + 100
+      )
+    );
+  };
+
+  document.getElementById('stop').onclick = () => {
+
+    stopPlayback();
+    recording = false;
+
+    document.getElementById('record').textContent = '● Record';
+    status.textContent = 'Stopped.';
+  };
+
+  document.getElementById('save').onclick = () => {
+
+    localStorage.setItem(
+      'goldenPianoRecording',
+      JSON.stringify(recorded)
+    );
+
+    status.textContent = 'Recording saved on this device.';
+  };
+
+  document.getElementById('export').onclick = () => {
+
+    const blob = new Blob(
+      [JSON.stringify(recorded,null,2)],
+      {type:'application/json'}
+    );
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+
+    a.href = url;
+    a.download = 'golden-piano-recording.json';
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  document.getElementById('import').onclick = () => {
+    fileInput.click();
+  };
+
+  fileInput.onchange = () => {
+
+    const file = fileInput.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      try{
+
+        const data = JSON.parse(reader.result);
+
+        if(Array.isArray(data)){
+          recorded = data;
+          status.textContent = 'Recording imported.';
+        }else{
+          status.textContent = 'Invalid recording file.';
+        }
+
+      }catch(e){
+        status.textContent = 'Could not read file.';
+      }
+    };
+
+    reader.readAsText(file);
+  };
+
+  buildKeyboard();
+
+  const saved = localStorage.getItem('goldenPianoRecording');
+
+  if(saved){
+    try{
+      recorded = JSON.parse(saved);
+    }catch(e){}
+  }
+
+  loadSound();
+
+})();
 </script>
 </body>
 </html>
